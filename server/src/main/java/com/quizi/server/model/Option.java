@@ -19,9 +19,22 @@ public class Option {
 
     private String optionText;
 
-    private boolean isCorrect;
+    @Column(name = "is_correct", columnDefinition = "BIT(1)")
+    private Boolean isCorrect = false;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    public Boolean getIsCorrect() {
+        return isCorrect;
+    }
+
+    public Boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setIsCorrect(Boolean correct) {
+        this.isCorrect = correct;
+    }
 }

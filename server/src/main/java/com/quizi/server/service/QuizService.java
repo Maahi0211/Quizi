@@ -1,5 +1,6 @@
 package com.quizi.server.service;
 
+import com.quizi.server.dto.CreateQuizDTO;
 import com.quizi.server.dto.QuizDTO;
 import com.quizi.server.model.*;
 import com.quizi.server.repo.ParticipationRepo;
@@ -27,24 +28,60 @@ public class QuizService {
     private ParticipationRepo participationRepo;
 
     // Create a new quiz
-    public String createQuiz(Quiz quiz, String userEmail) {
+    public String createQuiz(CreateQuizDTO quizDTO, String userEmail) {
         User creator = userRepo.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("Creator with email " + userEmail + " not found"));
 
+        Quiz quiz = new Quiz();
+        quiz.setTitle(quizDTO.getTitle());
+        quiz.setDescription(quizDTO.getDescription());
         quiz.setCreator(creator);
         quiz.setCreatedDate(LocalDateTime.now());
 
-        // Ensure each question and option is linked to the quiz
-        if (quiz.getQuestions() != null) {
-            quiz.getQuestions().forEach(question -> {
+        if (quizDTO.getQuestions() != null) {
+            List<Question> questions = quizDTO.getQuestions().stream().map(questionDTO -> {
+                Question question = new Question();
+                question.setQuestionText(questionDTO.getQuestionText());
                 question.setQuiz(quiz);
-                if (question.getOptions() != null) {
-                    question.getOptions().forEach(option -> option.setQuestion(question));
+
+                if (questionDTO.getOptions() != null) {
+                    List<Option> options = questionDTO.getOptions().stream().map(optionDTO -> {
+                        Option option = new Option();
+                        option.setOptionText(optionDTO.getOptionText());
+                        option.setQuestion(question);
+                        
+                        // Debug logs
+                        System.out.println("Creating option: " + optionDTO.getOptionText());
+                        System.out.println("DTO isCorrect value: " + optionDTO.getIsCorrect());
+                        
+                        // Explicitly set the boolean value
+                        option.setIsCorrect(Boolean.TRUE.equals(optionDTO.getIsCorrect()));
+                        
+                        System.out.println("Entity isCorrect value after setting: " + option.getIsCorrect());
+                        
+                        return option;
+                    }).collect(Collectors.toList());
+                    
+                    question.setOptions(options);
                 }
-            });
+                
+                return question;
+            }).collect(Collectors.toList());
+            
+            quiz.setQuestions(questions);
         }
 
-        quizRepo.save(quiz); // Save quiz with cascading to questions and options
+        Quiz savedQuiz = quizRepo.save(quiz);
+        
+        // Verify saved values
+        savedQuiz.getQuestions().forEach(question -> 
+            question.getOptions().forEach(option -> 
+                System.out.println("Saved option: " + option.getOptionText() + 
+                                 " isCorrect: " + option.getIsCorrect() + 
+                                 " raw DB value: " + option.getIsCorrect())
+            )
+        );
+
         return "Quiz created successfully by " + creator.getUsername();
     }
 

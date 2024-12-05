@@ -1,5 +1,6 @@
 package com.quizi.server.controller;
 
+import com.quizi.server.dto.CreateQuizDTO;
 import com.quizi.server.dto.ParticipationResponse;
 import com.quizi.server.dto.QuizDTO;
 import com.quizi.server.dto.QuizSubmitDTO;
@@ -31,16 +32,16 @@ public class QuizController {
 
     // Create a new quiz
     @PostMapping("/create")
-    public ResponseEntity<String> createQuiz(@RequestBody Quiz quiz, @RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<String> createQuiz(@RequestBody CreateQuizDTO quizDTO, @RequestHeader("Authorization") String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().body("Invalid Authorization header");
         }
 
-        String token = authHeader.substring(7); // Remove "Bearer " prefix
+        String token = authHeader.substring(7);
 
         try {
             String userEmail = jwtUtil.extractUsername(token);
-            String response = quizService.createQuiz(quiz, userEmail);
+            String response = quizService.createQuiz(quizDTO, userEmail);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Invalid or expired JWT token");

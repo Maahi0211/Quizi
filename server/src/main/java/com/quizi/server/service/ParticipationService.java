@@ -92,28 +92,42 @@ public class ParticipationService {
 
         int score = 0;
 
+        // Debug logging
+        System.out.println("Processing quiz submission for quiz: " + quiz.getTitle());
+        System.out.println("Submitted answers: " + quizSubmitDTO.getAnswers());
+
         // Iterate through the submitted answers to calculate the score
         for (Map.Entry<Long, Long> entry : quizSubmitDTO.getAnswers().entrySet()) {
             Long questionId = entry.getKey();
             Long selectedOptionId = entry.getValue();
 
             // Find the question in the quiz
-            Optional<Question> question = quiz.getQuestions().stream()
+            Optional<Question> questionOpt = quiz.getQuestions().stream()
                     .filter(q -> q.getId().equals(questionId))
                     .findFirst();
 
-            if (question.isPresent()) {
-                // Find the correct option for the question
-                Optional<Option> correctOption = question.get().getOptions().stream()
-                        .filter(Option::isCorrect)
-                        .findFirst();
+            if (questionOpt.isPresent()) {
+                Question question = questionOpt.get();
+                System.out.println("Processing question: " + question.getQuestionText());
+                
+                // Get the selected option
+                Optional<Option> selectedOption = question.getOptions().stream()
+                    .filter(opt -> opt.getId().equals(selectedOptionId))
+                    .findFirst();
 
-                // Check if the selected option is correct
-                if (correctOption.isPresent() && correctOption.get().getId().equals(selectedOptionId)) {
-                    score++;
+                if (selectedOption.isPresent()) {
+                    Option option = selectedOption.get();
+                    System.out.println("Selected option: " + option.getOptionText() + ", isCorrect: " + option.isCorrect());
+                    
+                    if (option.isCorrect()) {
+                        score++;
+                        System.out.println("Correct answer! Current score: " + score);
+                    }
                 }
             }
         }
+
+        System.out.println("Final score: " + score);
 
         // Create and save the participation record
         Participation participation = new Participation();
@@ -124,7 +138,6 @@ public class ParticipationService {
 
         Participation savedParticipation = participationRepo.save(participation);
 
-        // Return a simplified response containing just the participation ID, score, and quiz details
         return new ParticipationResponse(
                 savedParticipation.getId(),
                 quiz.getId(),
