@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -175,5 +176,31 @@ public class QuizService {
                                         )).collect(Collectors.toList())
                         )).collect(Collectors.toList())
         );
+    }
+
+    public Map<String, Object> getUserStats(String userEmail) {
+        // Fetch the user
+        User user = userRepo.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Calculate total quizzes created by the user
+        int totalQuizzesCreated = quizRepo.countByCreatorEmail(userEmail);
+
+        // Calculate total quizzes taken by the user
+        int totalQuizzesTaken = participationRepo.countByUserId(user.getId());
+
+        // Calculate the average score for quizzes taken
+        Double averageScore = participationRepo.findAverageScoreByUserId(user.getId());
+
+        // If no quizzes have been taken, averageScore may be null
+        averageScore = (averageScore == null) ? 0.0 : averageScore;
+
+        // Create a map to return the statistics
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalQuizzesCreated", totalQuizzesCreated);
+        stats.put("totalQuizzesTaken", totalQuizzesTaken);
+        stats.put("averageScore", averageScore);
+
+        return stats;
     }
 }

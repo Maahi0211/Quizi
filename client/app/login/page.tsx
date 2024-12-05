@@ -42,14 +42,13 @@ export default function LoginPage() {
       const data = await response.text()
 
       if (response.ok) {
-        // Login successful
-        // You might want to store the token or user data here
-        // token is returned as json
+        // Parse the JSON response
         const json = JSON.parse(data)
+        // Store token and email in localStorage
         localStorage.setItem('token', json.token)
-        router.push('/app') // or wherever you want to redirect after login
+        localStorage.setItem('userEmail', email)
+        router.push('/app')
       } else {
-        // Login failed
         setError(data || 'Login failed')
       }
     } catch (err) {

@@ -4,6 +4,7 @@ import com.quizi.server.dto.UserDTO;
 import com.quizi.server.dto.UserLoginDto;
 import com.quizi.server.dto.UserRegisterDto;
 import com.quizi.server.model.User;
+import com.quizi.server.service.QuizService;
 import com.quizi.server.service.UserService;
 import com.quizi.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private QuizService quizService;
 
     // Register new user
     @PostMapping("/register")
@@ -66,5 +71,10 @@ public class UserController {
         catch (Exception e){
             return ResponseEntity.status(401).build();
         }
+    }
+
+    @GetMapping("/stats")
+    public Map<String, Object> getUserStats(@RequestParam String email) {
+        return quizService.getUserStats(email);
     }
 }

@@ -10,5 +10,6 @@ import java.util.List;
 public interface QuizRepo extends JpaRepository<Quiz, Long> {
     List<Quiz> findByCreatorId(Long creatorId);
     List<Quiz> findByCreatorEmail(String email);
+    int countByCreatorEmail(String email);
 }
 
