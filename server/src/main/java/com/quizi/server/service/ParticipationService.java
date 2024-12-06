@@ -142,7 +142,7 @@ public class ParticipationService {
                 savedParticipation.getId(),
                 quiz.getId(),
                 user.getId(),
-                savedParticipation.getScore(),
+                (int) savedParticipation.getScore(),
                 quiz.getTitle(),
                 user.getEmail(),
                 savedParticipation.getSubmittedAt().toString()

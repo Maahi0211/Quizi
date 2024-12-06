@@ -25,7 +25,8 @@ public class Participation {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    private int score;
+    private double score;
 
     private LocalDateTime submittedAt; // Added this field for submission timestamp
+
 }

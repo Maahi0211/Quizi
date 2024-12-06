@@ -13,21 +13,31 @@ interface UserProfile {
   role: string | null
 }
 
+interface UserStats {
+  totalQuizzesTaken: number
+  totalQuizzesCreated: number
+  averageScore: number
+}
+
 export default function Profile() {
   const [activeTab, setActiveTab] = useState('profile')
   const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [stats, setStats] = useState<UserStats | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfileAndStats = async () => {
       try {
         const token = localStorage.getItem('token')
-        if (!token) {
+        const userEmail = localStorage.getItem('userEmail')
+
+        if (!token || !userEmail) {
           toast.error('Please log in to view your profile')
           return
         }
 
-        const response = await fetch('http://localhost:8080/auth/user-detail', {
+        // Fetch profile
+        const profileResponse = await fetch('http://localhost:8080/auth/user-detail', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -37,21 +47,32 @@ export default function Profile() {
           credentials: 'include'
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch profile')
+        // Fetch stats
+        const statsResponse = await fetch(`http://localhost:8080/auth/stats?email=${userEmail}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (!profileResponse.ok || !statsResponse.ok) {
+          throw new Error('Failed to fetch data')
         }
 
-        const data = await response.json()
-        setProfile(data)
+        const profileData = await profileResponse.json()
+        const statsData = await statsResponse.json()
+
+        setProfile(profileData)
+        setStats(statsData)
       } catch (error) {
         console.error('Error:', error)
-        toast.error('Failed to load profile')
+        toast.error('Failed to load profile data')
       } finally {
         setIsLoading(false)
       }
     }
 
-    fetchProfile()
+    fetchProfileAndStats()
   }, [])
 
   return (
@@ -98,15 +119,21 @@ export default function Profile() {
 
                   <div className="grid grid-cols-3 gap-6 mb-8">
                     <div className="bg-pink-50 rounded-lg p-4">
-                      <div className="text-2xl font-medium text-pink-900">0</div>
+                      <div className="text-2xl font-medium text-pink-900">
+                        {stats?.totalQuizzesCreated || 0}
+                      </div>
                       <div className="text-sm text-pink-600">Quizzes Created</div>
                     </div>
                     <div className="bg-pink-50 rounded-lg p-4">
-                      <div className="text-2xl font-medium text-pink-900">0</div>
+                      <div className="text-2xl font-medium text-pink-900">
+                        {stats?.totalQuizzesTaken || 0}
+                      </div>
                       <div className="text-sm text-pink-600">Quizzes Taken</div>
                     </div>
                     <div className="bg-pink-50 rounded-lg p-4">
-                      <div className="text-2xl font-medium text-pink-900">0%</div>
+                      <div className="text-2xl font-medium text-pink-900">
+                        {stats?.averageScore || 0}%
+                      </div>
                       <div className="text-sm text-pink-600">Average Score</div>
                     </div>
                   </div>

@@ -119,34 +119,57 @@ public class QuizService {
     }
 
     // Submit answers for a quiz
+    // Submit answers for a quiz with percentage-based scoring
     public Participation submitQuiz(Long quizId, String userEmail, Map<Long, Long> answers) {
+        // Fetch user
         User user = userRepo.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Fetch quiz
         Quiz quiz = quizRepo.findById(quizId)
                 .orElseThrow(() -> new RuntimeException("Quiz not found"));
 
-        int score = answers.entrySet().stream()
-                .mapToInt(entry -> {
+        // Get total number of questions in the quiz
+        int totalQuestions = quiz.getQuestions().size();
+
+        if (totalQuestions == 0) {
+            throw new RuntimeException("Quiz has no questions.");
+        }
+
+        // Calculate the number of correct answers
+        long correctAnswers = answers.entrySet().stream()
+                .filter(entry -> {
                     Long questionId = entry.getKey();
                     Long selectedOptionId = entry.getValue();
 
+                    // Find the question by ID
                     return quiz.getQuestions().stream()
                             .filter(question -> question.getId().equals(questionId))
                             .flatMap(question -> question.getOptions().stream())
-                            .filter(option -> option.isCorrect() && option.getId().equals(selectedOptionId))
-                            .findAny()
-                            .isPresent() ? 1 : 0;
+                            .anyMatch(option -> option.isCorrect() && option.getId().equals(selectedOptionId));
                 })
-                .sum();
+                .count();
 
+        // Calculate the percentage score
+        double percentageScore = ((double) correctAnswers / totalQuestions) * 100;
+
+        // Round to 2 decimal places
+        percentageScore = Math.round(percentageScore * 100.0) / 100.0;
+
+        // Log the result for debugging
+        System.out.println("Correct Answers: " + correctAnswers);
+        System.out.println("Total Questions: " + totalQuestions);
+        System.out.println("Percentage Score: " + percentageScore);
+
+        // Save participation
         Participation participation = new Participation();
         participation.setQuiz(quiz);
         participation.setUser(user);
-        participation.setScore(score);
+        participation.setScore(percentageScore); // Store score as percentage
 
         return participationRepo.save(participation);
     }
+
 
     // Get all participations for a specific quiz
     public List<Participation> getParticipationsByQuizId(Long quizId) {
