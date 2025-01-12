@@ -19,7 +19,7 @@ public class ServerApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**") // Allow all endpoints
-						.allowedOrigins("http://localhost:3000") // Allow only localhost:3000
+						.allowedOrigins("https://quizi-six.vercel.app/") // Allow only localhost:3000
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow HTTP methods
 						.allowedHeaders("*") // Allow all headers
 						.allowCredentials(true); // Allow cookies if needed
