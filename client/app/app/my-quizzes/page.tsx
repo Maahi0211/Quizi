@@ -37,7 +37,7 @@ export default function MyQuizzes() {
     const fetchMyQuizzes = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:8080/quiz/my-quizzes', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quiz/my-quizzes`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -64,7 +64,7 @@ export default function MyQuizzes() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:8080/quiz/delete/${quizToDelete}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quiz/delete/${quizToDelete}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -37,7 +37,7 @@ export default function Profile() {
         }
 
         // Fetch profile
-        const profileResponse = await fetch('http://localhost:8080/auth/user-detail', {
+        const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user-detail`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -48,7 +48,7 @@ export default function Profile() {
         })
 
         // Fetch stats
-        const statsResponse = await fetch(`http://localhost:8080/auth/stats?email=${userEmail}`, {
+        const statsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/stats?email=${userEmail}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

@@ -119,7 +119,7 @@ export default function CreateQuizPage() {
       setIsSubmitting(true)
       
       toast.promise(
-        fetch('http://localhost:8080/quiz/create', {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/quiz/create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -57,7 +57,7 @@ export default function TakeQuiz() {
           return
         }
 
-        const response = await fetch(`http://localhost:8080/quiz/${params.quizId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quiz/${params.quizId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -120,7 +120,7 @@ export default function TakeQuiz() {
         answers: selectedAnswers // This is already in the format { questionId: optionId }
       }
 
-      const response = await fetch(`http://localhost:8080/quiz/submit`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quiz/submit`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
