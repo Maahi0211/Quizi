@@ -21,7 +21,7 @@ export default function StatsGrid() {
         const userEmail = localStorage.getItem('userEmail')
         
         if (!token || !userEmail) {
-          toast.error('Please log in to view stats')
+          toast.error("Please log in to view stats")
           return
         }
 
