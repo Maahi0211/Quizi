@@ -145,9 +145,9 @@ export default function TakeQuiz() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-400"></div>
         </div>
       </div>
     )
@@ -155,9 +155,9 @@ export default function TakeQuiz() {
 
   if (!quiz) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
         <div className="flex items-center justify-center h-screen">
-          <div className="text-center text-gray-500">Quiz not found</div>
+          <div className="text-center text-gray-400">Quiz not found</div>
         </div>
       </div>
     )
@@ -165,7 +165,7 @@ export default function TakeQuiz() {
 
   if (isSubmitted && submissionResult) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
         <Toaster richColors position="top-right" />
         <div className="absolute inset-0 overflow-hidden">
           <GradientBlobs />
@@ -178,32 +178,34 @@ export default function TakeQuiz() {
             <TopBar />
             
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 border border-pink-100">
+              <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-8 border border-gray-800">
                 <div className="text-center mb-8">
-                  <h1 className="text-3xl font-medium text-gray-800 mb-4">Quiz Completed!</h1>
-                  <h2 className="text-xl text-gray-600 mb-2">{submissionResult.quizTitle}</h2>
-                  <p className="text-gray-500">Submitted on {new Date(submissionResult.submittedAt).toLocaleString()}</p>
+                  <h1 className="text-3xl font-medium text-gray-100 mb-4">Quiz Completed!</h1>
+                  <h2 className="text-xl text-gray-300 mb-2">{submissionResult.quizTitle}</h2>
+                  <p className="text-gray-400">Submitted on {new Date(submissionResult.submittedAt).toLocaleString()}</p>
                 </div>
 
                 <div className="flex justify-center mb-8">
-                  <div className="bg-pink-50 rounded-full p-8">
-                    <div className="text-4xl font-bold text-pink-600">
+                  <div className="bg-pink-900/30 rounded-full p-8 border border-pink-700/30">
+                    <div className="text-4xl font-bold text-pink-300">
                       {submissionResult.score}
                     </div>
-                    <div className="text-sm text-pink-600 mt-1">Score</div>
+                    <div className="text-sm text-pink-400 mt-1">Score</div>
                   </div>
                 </div>
 
                 <div className="flex justify-center space-x-4">
                   <button
                     onClick={() => router.push('/app')}
-                    className="px-6 py-2 bg-pink-100 hover:bg-pink-200 text-pink-900 rounded-lg transition"
+                    className="px-6 py-2 bg-pink-900/50 hover:bg-pink-800/50 text-pink-100 
+                      rounded-lg transition border border-pink-700/30"
                   >
                     Back to Dashboard
                   </button>
                   <button
                     onClick={() => router.push('/app/my-quizzes')}
-                    className="px-6 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition"
+                    className="px-6 py-2 bg-pink-900/50 hover:bg-pink-800/50 text-pink-100 
+                      rounded-lg transition border border-pink-700/30"
                   >
                     View All Attempts
                   </button>
@@ -219,7 +221,7 @@ export default function TakeQuiz() {
   const currentQuestion = quiz.questions[currentQuestionIndex]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
       <Toaster richColors position="top-right" />
       <div className="absolute inset-0 overflow-hidden">
         <GradientBlobs />
@@ -232,40 +234,40 @@ export default function TakeQuiz() {
           <TopBar />
           
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 border border-pink-100">
+            <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-8 border border-gray-800">
               <div className="mb-8">
-                <h1 className="text-2xl font-medium text-gray-800 mb-2">{quiz.title}</h1>
-                <p className="text-gray-500">{quiz.description}</p>
+                <h1 className="text-2xl font-medium text-gray-100 mb-2">{quiz.title}</h1>
+                <p className="text-gray-300">{quiz.description}</p>
                 <p className="text-sm text-gray-400 mt-2">Created by {quiz.creatorName}</p>
               </div>
 
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-medium text-gray-700">
+                  <h2 className="text-lg font-medium text-gray-200">
                     Question {currentQuestionIndex + 1} of {quiz.questions.length}
                   </h2>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-400">
                     {Math.round(((currentQuestionIndex + 1) / quiz.questions.length) * 100)}% Complete
                   </div>
                 </div>
-                <div className="w-full bg-pink-100 rounded-full h-2">
+                <div className="w-full bg-gray-800 rounded-full h-2">
                   <div 
-                    className="bg-pink-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-pink-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
                   ></div>
                 </div>
               </div>
 
               <div className="mb-8">
-                <h3 className="text-xl text-gray-800 mb-4">{currentQuestion.questionText}</h3>
+                <h3 className="text-xl text-gray-100 mb-4">{currentQuestion.questionText}</h3>
                 <div className="space-y-3">
                   {currentQuestion.options.map((option) => (
                     <div
                       key={option.id}
                       className={`p-4 rounded-lg border cursor-pointer transition ${
                         selectedAnswers[currentQuestion.id] === option.id
-                          ? 'border-pink-500 bg-pink-50'
-                          : 'border-gray-200 hover:border-pink-200'
+                          ? 'border-pink-500 bg-pink-900/30'
+                          : 'border-gray-700 hover:border-pink-700/50 bg-gray-800/30'
                       }`}
                       onClick={() => handleOptionSelect(currentQuestion.id, option.id)}
                     >
@@ -275,9 +277,9 @@ export default function TakeQuiz() {
                           name={`question-${currentQuestion.id}`}
                           checked={selectedAnswers[currentQuestion.id] === option.id}
                           onChange={() => handleOptionSelect(currentQuestion.id, option.id)}
-                          className="text-pink-600 focus:ring-pink-500"
+                          className="text-pink-600 focus:ring-pink-500 bg-gray-800 border-gray-700"
                         />
-                        <span className="ml-3">{option.optionText}</span>
+                        <span className="ml-3 text-gray-200">{option.optionText}</span>
                       </label>
                     </div>
                   ))}
@@ -288,10 +290,10 @@ export default function TakeQuiz() {
                 <button
                   onClick={handlePrevious}
                   disabled={currentQuestionIndex === 0}
-                  className={`px-6 py-2 rounded-lg transition ${
+                  className={`px-6 py-2 rounded-lg transition border ${
                     currentQuestionIndex === 0
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-pink-100 text-pink-900 hover:bg-pink-200'
+                      ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed border-gray-700'
+                      : 'bg-pink-900/50 text-pink-100 hover:bg-pink-800/50 border-pink-700/30'
                   }`}
                 >
                   Previous
@@ -300,14 +302,16 @@ export default function TakeQuiz() {
                 {currentQuestionIndex === quiz.questions.length - 1 ? (
                   <button
                     onClick={handleSubmit}
-                    className="px-6 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition"
+                    className="px-6 py-2 bg-pink-900/50 hover:bg-pink-800/50 text-pink-100 
+                      rounded-lg transition border border-pink-700/30"
                   >
                     Submit Quiz
                   </button>
                 ) : (
                   <button
                     onClick={handleNext}
-                    className="px-6 py-2 bg-pink-100 hover:bg-pink-200 text-pink-900 rounded-lg transition"
+                    className="px-6 py-2 bg-pink-900/50 hover:bg-pink-800/50 text-pink-100 
+                      rounded-lg transition border border-pink-700/30"
                   >
                     Next
                   </button>

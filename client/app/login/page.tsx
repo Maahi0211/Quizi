@@ -4,15 +4,15 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-// Add these SVG components at the top of your file
+// Updated SVG components with darker fill
 const CherryBlossom1 = () => (
-  <svg viewBox="0 0 200 200" className="w-full h-full fill-pink-200">
+  <svg viewBox="0 0 200 200" className="w-full h-full fill-pink-900/30">
     <path d="M100 10c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm0 30c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm30 0c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm-60 0c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm30 30c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8z"/>
   </svg>
 )
 
 const CherryBlossom2 = () => (
-  <svg viewBox="0 0 200 200" className="w-full h-full fill-pink-200">
+  <svg viewBox="0 0 200 200" className="w-full h-full fill-pink-900/30">
     <path d="M100 10c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm-30 30c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm60 0c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8zm-30 30c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8z"/>
   </svg>
 )
@@ -42,9 +42,7 @@ export default function LoginPage() {
       const data = await response.text()
 
       if (response.ok) {
-        // Parse the JSON response
         const json = JSON.parse(data)
-        // Store token and email in localStorage
         localStorage.setItem('token', json.token)
         localStorage.setItem('userEmail', email)
         router.push('/app')
@@ -58,29 +56,29 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-pink-50 relative overflow-hidden">
-      {/* Replace Image components with SVGs */}
-      <div className="absolute top-0 left-0 w-64 h-64 opacity-20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 to-gray-900 relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-0 left-0 w-64 h-64 opacity-10">
         <CherryBlossom1 />
       </div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 opacity-20">
+      <div className="absolute bottom-0 right-0 w-64 h-64 opacity-10">
         <CherryBlossom2 />
       </div>
 
       {/* Login Form */}
-      <div className="w-full max-w-md p-8 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg space-y-6 relative z-10">
+      <div className="w-full max-w-md p-8 bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-xl border border-gray-800 space-y-6 relative z-10">
         <div className="text-center">
-          <h1 className="text-3xl font-extralight text-gray-800 mb-2">Welcome Back</h1>
+          <h1 className="text-3xl font-extralight text-gray-100 mb-2">Welcome Back</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="text-red-500 text-sm text-center">
+            <div className="text-red-400 text-sm text-center">
               {error}
             </div>
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
               Email
             </label>
             <input
@@ -88,14 +86,16 @@ export default function LoginPage() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border border-pink-100 rounded-md focus:ring-pink-200 focus:border-pink-200 outline-none transition"
+              className="mt-1 w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-md 
+                focus:ring-pink-500/50 focus:border-pink-500/50 outline-none transition
+                text-gray-100 placeholder-gray-500"
               placeholder="your@email.com"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
               Password
             </label>
             <input
@@ -103,7 +103,9 @@ export default function LoginPage() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border border-pink-100 rounded-md focus:ring-pink-200 focus:border-pink-200 outline-none transition"
+              className="mt-1 w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-md 
+                focus:ring-pink-500/50 focus:border-pink-500/50 outline-none transition
+                text-gray-100 placeholder-gray-500"
               placeholder="••••••••"
               required
             />
@@ -111,21 +113,22 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-pink-100 hover:bg-pink-200 text-pink-900 rounded-md transition duration-200 ease-in-out"
+            className="w-full py-2 px-4 bg-pink-900/50 hover:bg-pink-800/50 text-pink-100 
+              rounded-md transition duration-200 ease-in-out border border-pink-700/30"
           >
             Sign In
           </button>
         </form>
 
         <div className="text-center text-sm">
-          <Link href="/forgot-password" className="text-pink-600 hover:text-pink-700">
+          <Link href="/forgot-password" className="text-pink-400 hover:text-pink-300">
             Forgot your password?
           </Link>
         </div>
 
-        <div className="text-center text-sm text-gray-500">
-          Dont have an account?{' '}
-          <Link href="/register" className="text-pink-600 hover:text-pink-700">
+        <div className="text-center text-sm text-gray-400">
+          Don't have an account?{' '}
+          <Link href="/register" className="text-pink-400 hover:text-pink-300">
             Sign up
           </Link>
         </div>

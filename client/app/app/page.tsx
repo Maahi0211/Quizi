@@ -41,8 +41,8 @@ export default function Dashboard() {
             <StatsGrid />
             <div className="mt-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-light text-gray-800">Live Quizzes</h2>
-                <button className="text-sm text-pink-600 hover:text-pink-700 flex items-center space-x-1">
+                <h2 className="text-2xl font-light text-gray-100">Live Quizzes</h2>
+                <button className="text-sm text-pink-400 hover:text-pink-300 flex items-center space-x-1">
                   <span>View All</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -53,10 +53,13 @@ export default function Dashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {isLoading ? (
                   Array(3).fill(0).map((_, index) => (
-                    <div key={index} className="bg-white/80 backdrop-blur-sm border border-pink-100 rounded-xl p-6 animate-pulse">
-                      <div className="h-4 bg-pink-100 rounded w-3/4 mb-3"></div>
-                      <div className="h-3 bg-pink-100 rounded w-1/2 mb-3"></div>
-                      <div className="h-3 bg-pink-100 rounded w-1/4"></div>
+                    <div 
+                      key={index} 
+                      className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-xl p-6 animate-pulse"
+                    >
+                      <div className="h-4 bg-gray-800 rounded w-3/4 mb-3"></div>
+                      <div className="h-3 bg-gray-800 rounded w-1/2 mb-3"></div>
+                      <div className="h-3 bg-gray-800 rounded w-1/4"></div>
                     </div>
                   ))
                 ) : (
@@ -72,12 +75,12 @@ export default function Dashboard() {
           </>
         )
       default:
-        return <div>Coming Soon...</div>
+        return <div className="text-gray-300">Coming Soon...</div>
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
       <div className="absolute inset-0 overflow-hidden">
         <GradientBlobs />
       </div>

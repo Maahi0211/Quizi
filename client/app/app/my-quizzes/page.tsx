@@ -87,7 +87,7 @@ export default function MyQuizzes() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-pink-50 relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 relative">
       <Toaster richColors position="top-right" />
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
@@ -109,34 +109,38 @@ export default function MyQuizzes() {
 
           <div className="mt-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-light text-gray-800">My Quizzes</h2>
+              <h2 className="text-2xl font-light text-gray-100">My Quizzes</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoading ? (
                 Array(3).fill(0).map((_, index) => (
-                  <div key={index} className="bg-white/80 backdrop-blur-sm border border-pink-100 rounded-xl p-6 animate-pulse">
-                    <div className="h-4 bg-pink-100 rounded w-3/4 mb-3"></div>
-                    <div className="h-3 bg-pink-100 rounded w-1/2 mb-3"></div>
-                    <div className="h-3 bg-pink-100 rounded w-1/4"></div>
+                  <div key={index} className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 
+                    rounded-xl p-6 animate-pulse">
+                    <div className="h-4 bg-gray-800 rounded w-3/4 mb-3"></div>
+                    <div className="h-3 bg-gray-800 rounded w-1/2 mb-3"></div>
+                    <div className="h-3 bg-gray-800 rounded w-1/4"></div>
                   </div>
                 ))
               ) : (
                 myQuizzes.map((quiz) => (
-                  <div key={quiz.id} className="bg-white/80 backdrop-blur-sm border border-pink-100 rounded-xl p-6 hover:border-pink-200 transition group">
-                    <h3 className="text-xl font-medium text-gray-800 mb-2 group-hover:text-pink-900">
+                  <div key={quiz.id} className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 
+                    rounded-xl p-6 hover:border-pink-700/50 transition group">
+                    <h3 className="text-xl font-medium text-gray-100 mb-2 group-hover:text-pink-300">
                       {quiz.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-4">{quiz.description}</p>
+                    <p className="text-sm text-gray-400 mb-4">{quiz.description}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">{quiz.questions.length} questions</span>
+                      <span className="text-sm text-gray-400">{quiz.questions.length} questions</span>
                       <div className="flex space-x-2">
-                        <button className="px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-900 rounded-lg transition">
+                        <button className="px-4 py-2 bg-pink-900/50 hover:bg-pink-800/50 
+                          text-pink-100 rounded-lg transition border border-pink-700/30">
                           Edit
                         </button>
                         <button
                           onClick={() => handleDeleteClick(quiz.id)}
-                          className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 rounded-lg transition"
+                          className="px-4 py-2 bg-red-900/50 hover:bg-red-800/50 
+                            text-red-100 rounded-lg transition border border-red-700/30"
                         >
                           Delete
                         </button>

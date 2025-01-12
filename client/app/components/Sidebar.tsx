@@ -42,7 +42,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           return
         }
 
-        const response = await fetch('http://localhost:8080/auth/user-detail', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user-detail`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -64,11 +64,11 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   }, [])
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-sm border-r border-pink-100 p-6">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-gray-900/80 backdrop-blur-sm border-r border-gray-800 p-6">
       <div className="mb-8">
         <Link href="/app">
-          <h1 className="text-2xl font-light text-pink-600">Quizi</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-light text-pink-400">Quizi</h1>
+          <p className="text-sm text-gray-400 mt-1">
             {profile ? `Welcome, ${profile.username}` : 'Welcome'}
           </p>
         </Link>
@@ -81,8 +81,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             onClick={() => handleTabClick(tab)}
             className={`w-full text-left px-4 py-2 rounded-lg transition ${
               activeTab === tab
-                ? 'bg-pink-50 text-pink-900'
-                : 'text-gray-600 hover:bg-pink-50'
+                ? 'bg-pink-900/50 text-pink-100 border border-pink-700/30'
+                : 'text-gray-300 hover:bg-gray-800/50 hover:text-pink-300'
             }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
