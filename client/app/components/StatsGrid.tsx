@@ -21,7 +21,7 @@ export default function StatsGrid() {
         const userEmail = localStorage.getItem('userEmail')
         
         if (!token || !userEmail) {
-          toast.error("Please log in to view stats")
+          toast.error(`Please log in to view stats`)
           return
         }
 
@@ -38,7 +38,7 @@ export default function StatsGrid() {
         setStats(data)
       } catch (error) {
         console.error('Error fetching stats:', error)
-        toast.error('Failed to load stats')
+        toast.error(`Failed to load stats`)
       }
     }
 
